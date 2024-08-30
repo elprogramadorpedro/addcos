@@ -13,9 +13,10 @@ import './index.css'
 import { CallbackHook } from './Memorize/CallbackHook.jsx'
 import { Padre } from './07-TAREA-MEMO/Padre.jsx'
 //import { CounterWhithCustomHooh } from './01-useState/CounterWhithCustomHooh'
-
+import './08-USE-REDUCER/intro-reducer.js'
+{/*
 createRoot(document.getElementById('root')).render(
   <>
 <Padre/>
   </>
-)
+)*/}
