@@ -1,26 +1,47 @@
 import React from 'react'
-import { useFetch } from '../hooks'
+import { useCounter, useFetch } from '../hooks'
+import { LoadingMessage } from '../03-useFechmaisCounter/LoadingMessage';
+import { PokemonCard } from '../03-useFechmaisCounter/PokemonCard';
 
 export const MultipleCustomHook = () => {
 
+    const {counter, decrement, increment } = useCounter(1);
 
-    //em ligar de criar fech aqui criaremos um custom hook para lidar com isso
+    const {data, hasError, isLoading} = useFetch(`https://pokeapi.co/api/v2/pokemon/${counter}`);
 
-    const {data, hasError, isLoading} = useFetch('https://pokeapi.co/api/v2/pokemon/3');
-
-
-
-
-  return (
+    return (
     <>
-    <h1>Informacion de Pokemon</h1>
-    <hr />
-    {isLoading && <p>Cargando...</p>}
+        <h1>Informacion de Pokemon</h1>
+        <hr />
+        {isLoading 
+            ? <LoadingMessage/>
+            : (
+                <PokemonCard 
+                    id={counter} 
+                    name={data?.name}
+                    sprites={[
+                        data?.sprites?.front_default,
+                        data?.sprites?.front_shiny,
+                        data?.sprites?.back_default,
+                        data?.sprites?.back_shiny,
+                    ]}
+                />
+            )
+        }
 
+        <button
+            className='btn btn-primary mt-2'
+            onClick={() => counter > 1 ? decrement() : null}
+        >
+            Anterior
+        </button>
 
-
-    <h2>{data?.name}</h2>
-    <pre>{JSON.stringify(data, null, 2)}</pre>
+        <button
+            className='btn btn-primary mt-2'
+            onClick={() => increment()}
+        >
+            Siguiente
+        </button>
     </>
-  )
+    )
 }

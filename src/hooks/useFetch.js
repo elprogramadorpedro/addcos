@@ -7,6 +7,14 @@
 import { useState, useEffect } from 'react'
 
 // Define y exporta un custom hook llamado useFetch. Los custom hooks permiten reutilizar lógica de estado.
+
+
+
+
+//CACHE 
+
+const localCache={}
+
 export const useFetch = (url) => {
 
     // Declara una variable de estado llamada 'state' que se inicializa con un objeto.
@@ -43,6 +51,25 @@ const setLoadingStage =()=>{
 
     // Define la función 'getFetch', que es una función asincrónica para obtener datos de una API.
     const getFetch = async () => {
+
+        if(localCache[url]){
+            console.log('Usando cache')
+                setState({
+                    data:localCache[url],
+                    isLoading:false,
+                    hasError:false,
+                    error: null,
+                });
+            return;
+        
+}
+
+
+
+
+
+
+
         setLoadingStage();
         // Realiza una solicitud GET a la API de PokeAPI para obtener información del Pokémon con ID 1.
         const resp = await fetch(url)
@@ -79,7 +106,7 @@ const setLoadingStage =()=>{
 
         //faremos um manejo del cache
 
-
+localCache[url] = data;
 
 
 
