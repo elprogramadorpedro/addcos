@@ -1,20 +1,29 @@
-import {useReducer} from 'react'// -1
+import {useEffect, useReducer} from 'react'// -1
 import { todoReducer } from './todoReducer'
+import { TodoList } from './TodoList';
+import { TodoAdd } from './TodoAdd';
 
 
 // -3
 //initial state com dos entradas
+
+
 const initialState =[
+   
+   
+   {/*
+    //-25 esta informacion ahora ahora sera percistente y sera guardada no local storage
     {
         id: new Date().getTime(),
         description: 'Recoletar la piedra del alma,',
         done: false,
     },
     {
-        id: new Date().getTime() + 100,
+        id: new Date().getTime() * 3,
         description: 'Recoletar la piedra del alma,',
         done: false,
-    }
+    }*/}
+   
 
 ]
 
@@ -25,7 +34,23 @@ export const TodoApp = () => {
 //const [state, dispatch] = useReducer(reducer, initialState )
 
 // -5 osea pasamos la referencia a la funcion, para que sea el useReducer que lo ejecute quando tenga que hacerlo. 
-const [todos, dispatchTodo] = useReducer(todoReducer, initialState )
+const [todos, dispatch] = useReducer (todoReducer, initialState );
+
+ // -26 
+ useEffect(() => {
+    console.log(todos)
+      }, [todos])
+
+//-24 
+const handleNewTodo =(todo)=>{
+    const action ={
+        type: '[TODO] Add Todo',
+        payload: todo
+    }  
+
+    // -25  explicame esso e porque ahi  dispatch(action)
+    dispatch(action)
+}
 
 {/*
     // -1
@@ -53,23 +78,35 @@ const [todos, dispatchTodo] = useReducer(todoReducer, initialState )
 
 <div className='row'>
     <div className='col-7'>
-      <ul className='list-group'>
-       {
-        todos.map( todo=>(
-            <li key={todo.id} className='list-group-item d-flex justify-content-between'>
-            <span className='align-self-center'>Item 1</span>
-            <button className='btn btn-danger'>Borrar</button>
-            </li>
-        ))
-       }
-    
-    </ul>
+      
+{/*
+// -6
+crear um nuevo componente que va a ser llamado aqui ya vuelvo voy a crealo */}
+
+{/* -8 finalmente llamamos a la funcion 
+
+<TodoList/>
+
+*/}
+
+
+{/* -9 cargamos los todo que tengo en el reducer  */}
+<TodoList todos ={todos}/>
+
+{/* - 10 ya vuelvo voy al componente TodoList.jsx para realizar una modificacion*/}
+
+
 </div>
 
 <div className='col-5'>
     <h4>Agregar Todo</h4>
     <hr />
-    <form>
+
+{/* -15 componentizando formulario*/}
+
+{/* -15 componentizando formulario
+
+<form>
         <input 
         type="text"
         placeholder='Que hay que hacer'
@@ -84,6 +121,13 @@ const [todos, dispatchTodo] = useReducer(todoReducer, initialState )
 
         </button>
     </form>
+
+*/}
+    {/*<TodoAdd/> mira la mundaca del componente explica porque */}
+    
+    <TodoAdd onNewTodo={handleNewTodo} />
+
+
 </div>
 </div>
   
